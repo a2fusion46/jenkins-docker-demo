@@ -51,18 +51,18 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: "${CREDS_ID}", usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
                     sh '''
                         echo "Authenticating with Docker Hub..."
-                        echo "${DOCKERHUB_PASS}" | docker login -u "${DOCKERHUB_USER}" --password-stdin
+                        echo "${DOCKERHUB_PASS}" | docker login docker.io -u "${DOCKERHUB_USER}" --password-stdin
 
-                        echo "Tagging Docker images for Docker Hub repository: ${DOCKERHUB_USER}/${IMAGE_NAME}..."
-                        docker tag ${IMAGE_NAME}:${BUILD_NUMBER} ${DOCKERHUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER}
-                        docker tag ${IMAGE_NAME}:${BUILD_NUMBER} ${DOCKERHUB_USER}/${IMAGE_NAME}:latest
+                        echo "Tagging Docker images for Docker Hub repository: docker.io/${DOCKERHUB_USER}/${IMAGE_NAME}..."
+                        docker tag ${IMAGE_NAME}:${BUILD_NUMBER} docker.io/${DOCKERHUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER}
+                        docker tag ${IMAGE_NAME}:${BUILD_NUMBER} docker.io/${DOCKERHUB_USER}/${IMAGE_NAME}:latest
 
                         echo "Pushing tagged images to Docker Hub..."
-                        docker push ${DOCKERHUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER}
-                        docker push ${DOCKERHUB_USER}/${IMAGE_NAME}:latest
+                        docker push docker.io/${DOCKERHUB_USER}/${IMAGE_NAME}:${BUILD_NUMBER}
+                        docker push docker.io/${DOCKERHUB_USER}/${IMAGE_NAME}:latest
 
                         echo "Logging out of Docker Hub..."
-                        docker logout
+                        docker logout docker.io
                     '''
                 }
             }
@@ -74,7 +74,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: "${CREDS_ID}", usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
                     sh '''
                         echo "Pulling latest image from Docker Hub registry..."
-                        docker pull ${DOCKERHUB_USER}/${IMAGE_NAME}:latest
+                        docker pull docker.io/${DOCKERHUB_USER}/${IMAGE_NAME}:latest
 
                         echo "Stopping and removing existing container if running..."
                         docker stop ${CONTAINER_NAME} || true
@@ -85,7 +85,7 @@ pipeline {
                             --name ${CONTAINER_NAME} \
                             -p ${HOST_PORT}:${CONTAINER_PORT} \
                             --restart unless-stopped \
-                            ${DOCKERHUB_USER}/${IMAGE_NAME}:latest
+                            docker.io/${DOCKERHUB_USER}/${IMAGE_NAME}:latest
 
                         echo "Container launched successfully."
                     '''
