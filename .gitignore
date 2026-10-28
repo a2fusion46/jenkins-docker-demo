@@ -1,0 +1,23 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Log and temporary files
+*.log
+*.tmp
+*.bak
+.swp
+
+# IDE and Editor configurations
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Environment and Secret files
+.env
+.env.*
+secrets/
+*.key
+*.pem
+credentials.xml

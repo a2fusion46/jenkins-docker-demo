@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Pipeline & Operations Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-glow"></div>
+    <div class="container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                </div>
+                <div>
+                    <h1>CloudOps Delivery Center</h1>
+                    <p class="subtitle">GitHub &rarr; Jenkins &rarr; Docker &rarr; Docker Hub &rarr; Live Deployment</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="badge badge-success pulse-badge">
+                    <span class="indicator-dot"></span>
+                    <span>System Operational</span>
+                </div>
+                <div class="timestamp-box">
+                    <span id="live-clock">--:--:-- UTC</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- KPI Summary Cards -->
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-icon">🚀</div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Deployment Status</span>
+                    <span class="kpi-value text-accent" id="kpi-deploy-status">Active</span>
+                </div>
+                <span class="kpi-subtext">Port 8081 (Container :80)</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">⚡</div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Health & Availability</span>
+                    <span class="kpi-value text-success" id="kpi-health-status">100% OK</span>
+                </div>
+                <span class="kpi-subtext">HTTP 200 OK | Response: 8ms</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">📦</div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Container Base</span>
+                    <span class="kpi-value" id="kpi-base-image">nginx:alpine</span>
+                </div>
+                <span class="kpi-subtext">Ultra-lightweight Linux</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">🔄</div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Pipeline Engine</span>
+                    <span class="kpi-value text-cyan">Jenkins CI/CD</span>
+                </div>
+                <span class="kpi-subtext">Automated Multi-Stage</span>
+            </div>
+        </section>
+
+        <!-- Pipeline Visualizer -->
+        <section class="panel-section">
+            <div class="section-header">
+                <h2>Continuous Integration & Continuous Delivery Pipeline</h2>
+                <div class="pipeline-actions">
+                    <button class="btn btn-secondary" id="btn-replay-pipeline">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                        Simulate Pipeline Run
+                    </button>
+                </div>
+            </div>
+
+            <div class="pipeline-tracker" id="pipeline-tracker">
+                <div class="pipeline-stage completed" data-stage="1">
+                    <div class="stage-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    </div>
+                    <div class="stage-info">
+                        <h4>1. SCM Checkout</h4>
+                        <p>GitHub Repository Pull</p>
+                    </div>
+                    <span class="stage-status-badge">Passed</span>
+                </div>
+                <div class="pipeline-connector active"></div>
+
+                <div class="pipeline-stage completed" data-stage="2">
+                    <div class="stage-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </div>
+                    <div class="stage-info">
+                        <h4>2. Code Validation</h4>
+                        <p>Structure & Integrity</p>
+                    </div>
+                    <span class="stage-status-badge">Passed</span>
+                </div>
+                <div class="pipeline-connector active"></div>
+
+                <div class="pipeline-stage completed" data-stage="3">
+                    <div class="stage-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                    </div>
+                    <div class="stage-info">
+                        <h4>3. Docker Build</h4>
+                        <p>nginx:alpine Packaged</p>
+                    </div>
+                    <span class="stage-status-badge">Passed</span>
+                </div>
+                <div class="pipeline-connector active"></div>
+
+                <div class="pipeline-stage completed" data-stage="4">
+                    <div class="stage-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    </div>
+                    <div class="stage-info">
+                        <h4>4. Image Tagging</h4>
+                        <p>Build # & :latest</p>
+                    </div>
+                    <span class="stage-status-badge">Passed</span>
+                </div>
+                <div class="pipeline-connector active"></div>
+
+                <div class="pipeline-stage completed" data-stage="5">
+                    <div class="stage-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                    </div>
+                    <div class="stage-info">
+                        <h4>5. Hub Registry</h4>
+                        <p>Pushed to Docker Hub</p>
+                    </div>
+                    <span class="stage-status-badge">Passed</span>
+                </div>
+                <div class="pipeline-connector active"></div>
+
+                <div class="pipeline-stage completed" data-stage="6">
+                    <div class="stage-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+                    </div>
+                    <div class="stage-info">
+                        <h4>6. Deployment</h4>
+                        <p>Running on Port 8081</p>
+                    </div>
+                    <span class="stage-status-badge">Passed</span>
+                </div>
+                <div class="pipeline-connector active"></div>
+
+                <div class="pipeline-stage completed" data-stage="7">
+                    <div class="stage-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    </div>
+                    <div class="stage-info">
+                        <h4>7. Health Check</h4>
+                        <p>HTTP 200 OK Verified</p>
+                    </div>
+                    <span class="stage-status-badge">Passed</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Two Column Detailed Info -->
+        <div class="dashboard-grid">
+            <!-- Deployment Specifications -->
+            <div class="panel-section">
+                <div class="section-header">
+                    <h2>Deployment Metadata</h2>
+                    <span class="badge badge-outline">Live Environment</span>
+                </div>
+                <div class="specs-table">
+                    <div class="spec-row">
+                        <span class="spec-name">Application Container</span>
+                        <span class="spec-value code-font" id="meta-container-name">jenkins-docker-demo-app</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-name">Base Image</span>
+                        <span class="spec-value code-font">nginx:alpine</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-name">Container Port Mappings</span>
+                        <span class="spec-value code-font">0.0.0.0:8081 &rarr; 80/tcp</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-name">CI/CD Orchestrator</span>
+                        <span class="spec-value">Jenkins Declarative Pipeline</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-name">Credentials ID</span>
+                        <span class="spec-value code-font">dockerhub-creds</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-name">Environment OS</span>
+                        <span class="spec-value">Fedora Linux (Container Engine)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Diagnostic Terminal -->
+            <div class="panel-section">
+                <div class="section-header">
+                    <h2>Interactive Diagnostics & Health Probe</h2>
+                    <button class="btn btn-primary" id="btn-run-probe">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        Run Live Health Check
+                    </button>
+                </div>
+                <div class="terminal-container">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="terminal-title">diagnostics.log</span>
+                        <button class="terminal-clear" id="btn-clear-logs" title="Clear console">clear</button>
+                    </div>
+                    <pre class="terminal-body" id="log-console"></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>DevOps Automation Pipeline &bull; Automated Deployment on Fedora Linux</p>
+            <p class="footer-links">
+                <a href="#pipeline-tracker">Pipeline Stages</a> &bull;
+                <a href="javascript:void(0)" id="footer-test-link">Health Ping</a> &bull;
+                <a href="https://github.com" target="_blank" rel="noopener">GitHub</a> &bull;
+                <a href="https://hub.docker.com" target="_blank" rel="noopener">Docker Hub</a>
+            </p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
